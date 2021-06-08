@@ -14,6 +14,7 @@ import (
 
 	mfactory "github.com/seanbhart/gandalf-v1-core/pkg/fund/managed/factory"
 	msingle "github.com/seanbhart/gandalf-v1-core/pkg/fund/managed/single"
+	olist "github.com/seanbhart/gandalf-v1-core/pkg/oracle/list"
 )
 
 func main() {
@@ -31,6 +32,7 @@ func main() {
 	senderKey := utils.GetEnv("ACCOUNT_KEY_PRIV")
 	senderAddress := utils.GetAddress(senderKey)
 	factoryAddress := common.HexToAddress(utils.GetEnv("FACTORY_ADDRESS"))
+	oracleAddress := common.HexToAddress(utils.GetEnv("ORACLE_ADDRESS"))
 
 	switch command {
 	case "factorydeploy":
@@ -93,6 +95,58 @@ func main() {
 		}
 		fundAddress := common.HexToAddress(os.Args[2])
 		msingle.GetTitle(client, fundAddress)
+
+	case "fundgetlatestprice":
+		if len(os.Args) < 4 {
+			fmt.Println("Usage:", os.Args[0], "fundgetlatestprice", "[fund address]", "[token address]")
+			return
+		}
+		fundAddress := common.HexToAddress(os.Args[2])
+		tokenAddress := common.HexToAddress(os.Args[3])
+		msingle.GetLatestPrice(client, fundAddress, tokenAddress)
+
+	case "fundgetoracleaddresses":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage:", os.Args[0], "fundgetoracleaddresses", "[fund address]")
+			return
+		}
+		fundAddress := common.HexToAddress(os.Args[2])
+		msingle.GetTokenAddresses(client, fundAddress)
+
+	case "fundswap":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage:", os.Args[0], "fundswap", "[fund address]")
+			return
+		}
+		fundAddress := common.HexToAddress(os.Args[2])
+		msingle.SwapTokens(client, fundAddress)
+
+	case "fundtest":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage:", os.Args[0], "fundtest", "[fund address]")
+			return
+		}
+		fundAddress := common.HexToAddress(os.Args[2])
+		msingle.FundTest(client, fundAddress)
+
+	case "oracledeploy":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage:", os.Args[0], "oracledeploy", "[gas limit]")
+			return
+		}
+		gasLimit, err := strconv.Atoi(os.Args[2])
+		if err != nil {
+			log.Fatal(err)
+		}
+		olist.Deploy(client, senderKey, uint64(gasLimit))
+
+	case "oraclelatestprice":
+		if len(os.Args) < 3 {
+			fmt.Println("Usage:", os.Args[0], "oraclelatestprice", "[token address]")
+			return
+		}
+		tokenAddress := common.HexToAddress(os.Args[2])
+		olist.GetLatestPrice(client, oracleAddress, tokenAddress)
 
 	case "sendeth":
 		if len(os.Args) < 5 {
