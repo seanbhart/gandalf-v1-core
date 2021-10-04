@@ -8,5 +8,5 @@ interface IGandalfV1ManagedFundFactory {
     function fundList(uint) external view returns (address fund);
     function fundListLength() external view returns (uint);
 
-    function createFund(address manager, string memory title) external returns (address fund);
+    function createFund(address manager, string memory title, address oracleAddress) external returns (address fund);
 }

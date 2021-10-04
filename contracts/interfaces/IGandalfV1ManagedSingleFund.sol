@@ -5,5 +5,5 @@ interface IGandalfV1ManagedSingleFund {
     function manager() external view returns (address);
     function title() external view returns (string memory);
 
-    function initialize(address _manager, string memory _title) external;
+    function initialize(address _manager, string memory _title, address _oracleAddress) external;
 }

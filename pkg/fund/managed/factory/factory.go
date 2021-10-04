@@ -28,7 +28,7 @@ func Deploy(client *ethclient.Client, privateKeyHex string, gasLimit uint64) (co
 	return address, instance
 }
 
-func CreateFund(client *ethclient.Client, factoryAddress common.Address, gasLimit uint64, privateKeyHex string, manager common.Address, title string) {
+func CreateFund(client *ethclient.Client, factoryAddress common.Address, oracleAddress common.Address, gasLimit uint64, privateKeyHex string, manager common.Address, title string) {
 	// EventsListen(client, factoryAddress)
 
 	auth, err := tx.GetAuth(client, privateKeyHex, gasLimit)
@@ -41,7 +41,7 @@ func CreateFund(client *ethclient.Client, factoryAddress common.Address, gasLimi
 		log.Fatal(err)
 	}
 
-	tx, err := instance.CreateFund(auth, manager, title)
+	tx, err := instance.CreateFund(auth, manager, title, oracleAddress)
 	if err != nil {
 		log.Fatal(err)
 	}

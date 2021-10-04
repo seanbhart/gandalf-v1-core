@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity =0.8.4;
+pragma solidity >=0.8.4;
 
 import './interfaces/IGandalfV1OracleList.sol';
 import './library/OpenZeppelin/Ownable.sol';

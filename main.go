@@ -54,15 +54,16 @@ func main() {
 
 	case "fundcreate":
 		if len(os.Args) < 4 {
-			fmt.Println("Usage:", os.Args[0], "fundcreate", "[fund title]", "[gas limit]")
+			fmt.Println("Usage:", os.Args[0], "fundcreate", "[fund title]", "[oracle address]", "[gas limit]")
 			return
 		}
 		title := os.Args[2]
-		gasLimit, err := strconv.Atoi(os.Args[3])
+		oracleAddress := common.HexToAddress(os.Args[3])
+		gasLimit, err := strconv.Atoi(os.Args[4])
 		if err != nil {
 			log.Fatal(err)
 		}
-		mfactory.CreateFund(client, factoryAddress, uint64(gasLimit), senderKey, senderAddress, title)
+		mfactory.CreateFund(client, factoryAddress, oracleAddress, uint64(gasLimit), senderKey, senderAddress, title)
 
 	case "fundcount":
 		mfactory.FundListCount(client, factoryAddress)

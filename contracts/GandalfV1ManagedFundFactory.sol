@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity =0.8.4;
+pragma solidity >=0.8.4;
 
 import './interfaces/IGandalfV1ManagedFundFactory.sol';
 import './GandalfV1ManagedSingleFund.sol';
@@ -22,7 +22,7 @@ contract GandalfV1ManagedFundFactory is IGandalfV1ManagedFundFactory {
         return fundList.length;
     }
 
-    function createFund(address manager, string memory title) external override returns (address fund) {
+    function createFund(address manager, string memory title, address oracleAddress) external override returns (address fund) {
         require(manager != address(0), 'GandalfV1: ZERO_ADDRESS');
         require(getFund[manager][title] == address(0), 'GandalfV1: FUND_EXISTS');
 
@@ -31,7 +31,7 @@ contract GandalfV1ManagedFundFactory is IGandalfV1ManagedFundFactory {
         assembly {
             fund := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
-        IGandalfV1ManagedSingleFund(fund).initialize(manager, title);
+        IGandalfV1ManagedSingleFund(fund).initialize(manager, title, oracleAddress);
         // getFund[manager].push(fund);
         getFund[manager][title] = fund;
         fundList.push(fund);
