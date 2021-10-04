@@ -65,7 +65,7 @@ Note: Customize the command portions in brackets. These example tests are not co
 
 2. Deploy the Oracle Contract
 
-   - e.g.: `go run main.go oracledeploy [750000]`
+   - e.g.: `go run main.go oracledeploy [1500000]`
    - The Oracle contract address will be the second output line. Save this address for the next step.
 
 3. Save the Factory and Oracle contract addresses in the `.env` file.
@@ -75,7 +75,7 @@ Note: Customize the command portions in brackets. These example tests are not co
 
 4. Create a new Fund contract via the Factory contract.
 
-   - e.g.: `go run main.go fundcreate ["kovan test 1003-01"] [0x18b20Af6ad00eb73de9Af3d12e2698dAd23ad4bf] [1500000]`
+   - e.g.: `go run main.go fundcreate ["kovan test 1003-01"] [Oracle Address] [1500000]`
    - The transaction hash will be the last output line. Look up the transaction and ensure it did not run out of gas.
 
 5. Get the new Fund address by querying the latest Fund by index.
@@ -84,8 +84,8 @@ Note: Customize the command portions in brackets. These example tests are not co
    - The Fund address will be the last output line. Save the address for the next step.
 
 6. Check the Fund title.
-   - e.g.: `go run main.go fundgettitle [0x7498C732f922b662DA564b6D096A370332203918]`
-   - e.g. for the price of WETH on Kovan: `go run main.go fundgetlatestprice [0x7498C732f922b662DA564b6D096A370332203918] [0xd0A1E359811322d97991E03f863a0C30C2cF029C]`
+   - e.g.: `go run main.go fundgettitle [Fund Address]`
+   - e.g. for the price of WETH on Kovan: `go run main.go fundgetlatestprice [Fund Address] [0xd0A1E359811322d97991E03f863a0C30C2cF029C]`
 
 ## Final Note
 
